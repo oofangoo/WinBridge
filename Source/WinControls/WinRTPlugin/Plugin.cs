@@ -70,7 +70,10 @@ namespace WinControls
         }
     }
 
-    public class VideoPlayback {
+    public class VideoPlayback
+    {
+
+        public static bool isFinishedMovie;
 
         public static void PlayVideoFullscreen(string videoUrl)
         {
@@ -85,9 +88,10 @@ namespace WinControls
 #if NETFX_CORE
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                isFinishedMovie = false;
 
                 Page page = (Page)Window.Current.Content;
-                SwapChainBackgroundPanel backgroundPanel = (SwapChainBackgroundPanel)page.FindName("DXSwapChainBackgroundPanel");
+                SwapChainPanel backgroundPanel = (SwapChainPanel)page.FindName("DXSwapChainPanel");
 
                 MediaElement videoPlayBackElement = new MediaElement();
 
@@ -95,14 +99,62 @@ namespace WinControls
                 videoPlayBackElement.Source = new Uri(videoUrl);
                 videoPlayBackElement.AreTransportControlsEnabled = controlsEnabled;
 
+                //videoPlayBackElement.MediaOpened += delegate
+                //{
+                //    Button skipButton = new Button();
+                //    skipButton.Name = "skipButton";
+                //    //skipButton.Click += delegate {
+                //    //skipButton.Visibility = Visibility.Collapsed;
+                //    //// Jump movie to end first to avoid ghost image ////
+                //    //TimeSpan span = videoPlayBackElement.NaturalDuration.TimeSpan;
+                //    //videoPlayBackElement.Position = span;
+                //    //OnMediaEnded(null, null);
+                //    //};
+                //    skipButton.HorizontalAlignment = HorizontalAlignment.Right;
+                //    skipButton.VerticalAlignment = VerticalAlignment.Bottom;
+                //    skipButton.Margin = new Thickness(10);
+                //    skipButton.Height = 50;
+                //    skipButton.Width = 200;
+                //    skipButton.BorderThickness = new Thickness(10);
+                //    skipButton.Content = "Skip";
+                //    //skipButton.Visibility = Visibility.Collapsed;
+
+                //    backgroundPanel.Children.Insert(backgroundPanel.Children.Count - 1, skipButton);
+                //};
+
                 if (tapSkipsVideo)
                 {
-                    videoPlayBackElement.Tapped += delegate { backgroundPanel.Children.Remove(videoPlayBackElement); };
+                    videoPlayBackElement.Tapped += delegate
+                    {
+
+                        //if (skipButton.Visibility == Visibility.Collapsed)
+                        //{
+                        //    skipButton.Visibility = Visibility.Visible;
+                        //}
+                        //else
+                        //{
+                        //    skipButton.Visibility = Visibility.Collapsed;
+                        //}
+                        backgroundPanel.Children.Remove(videoPlayBackElement);
+                    };
                 }
-                videoPlayBackElement.MediaEnded += delegate { backgroundPanel.Children.Remove(videoPlayBackElement); };
+                videoPlayBackElement.MediaEnded += delegate
+                {
+                    //skipButton.Visibility = Visibility.Collapsed;
+                    //videoPlayBackElement.Visibility = Visibility.Collapsed;
+                    //videoPlayBackElement.Source = null;
+                    //videoPlayBackElement.Stop();
+                    //VideoPlayer.Opacity = 0.0;
+
+                    //System.Threading.Thread.Sleep(2000);
+                    backgroundPanel.Children.Remove(videoPlayBackElement);
+
+                    isFinishedMovie = true;
+                };
 
                 backgroundPanel.Children.Add(videoPlayBackElement);
-            
+                //backgroundPanel.Children.Add(skipButton);
+
                 videoPlayBackElement.Play();
             });
 #endif
