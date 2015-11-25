@@ -214,13 +214,21 @@ namespace WinControls
             AlreadyPurchased
         }
 
+        public enum ReviewResult
+        {
+            ReviewSuccess,
+            ReviewCancel
+        }
+
 
         public delegate void PurchaseResultHandler(PurchaseResult result);
         public delegate void FullAppInfoHandler(FullAppInfo result);
         public delegate void ProductInfoHandler(ProductInfo result);
         public delegate void LicenseChangedHandler();
 
-        public static void RequestRating(string label, string okLabel, string cancelLabel)
+        public delegate void RatingResultHandler(ReviewResult result);
+
+        public static void RequestRating(string label, string okLabel, string cancelLabel, RatingResultHandler ratingCallback)
         {
 #if NETFX_CORE
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -231,10 +239,12 @@ namespace WinControls
                 {
                     String appId = Windows.ApplicationModel.Store.CurrentApp.AppId.ToString();
                     Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store:REVIEW?PFN=" + appId));
+                    ratingCallback(ReviewResult.ReviewSuccess);
                 }));
                 msg.Commands.Add(new UICommand(cancelLabel, (uiCommand) =>
                 {
                     // No rating, alright
+                    ratingCallback(ReviewResult.ReviewCancel);
                 }));
                 msg.DefaultCommandIndex = 0;
                 msg.CancelCommandIndex = 1;
