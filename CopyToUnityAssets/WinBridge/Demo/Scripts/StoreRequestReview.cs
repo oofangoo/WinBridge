@@ -7,6 +7,10 @@ public class StoreRequestReview : MonoBehaviour {
 		// This immediatly asks the user if he wants to review the app.
 		// If the user confirms, the appropriate Windows Store UI will
 		// be opened.
-		WinBridge.Store.RequestReview();
+		WinBridge.Store.RequestReview(ReviewResult);
+	}
+
+	public void ReviewResult(WinControls.Store.ReviewResult result) {
+
 	}
 }

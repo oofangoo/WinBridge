@@ -116,18 +116,18 @@ public class WinBridge : MonoBehaviour {
         /// <summary>
         /// Opens up a message dialog that opens up the Windows Store review page for the current app if the user confirms.
         /// </summary>
-        public static void RequestReview()
+		public static void RequestReview(WinControls.Store.RatingResultHandler handler)
         {
-            RequestReview("Would you like to rate and review this app?", "Rate & Review", "Not now", nil);
+            RequestReview("Would you like to rate and review this app?", "Rate & Review", "Not now", handler);
         }
 
         /// <summary>
         /// Opens up a message dialog that opens up the Windows Store review page for the current app if the user confirms.
         /// </summary>
         /// <param name="label">The label of the message box</param>
-        public static void RequestReview(string label)
+		public static void RequestReview(string label, WinControls.Store.RatingResultHandler handler)
         {
-            RequestReview(label, "Rate and Review", "Not now", nil);
+            RequestReview(label, "Rate and Review", "Not now", handler);
         }
 
         /// <summary>
