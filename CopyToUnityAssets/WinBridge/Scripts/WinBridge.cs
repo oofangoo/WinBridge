@@ -118,7 +118,7 @@ public class WinBridge : MonoBehaviour {
         /// </summary>
         public static void RequestReview()
         {
-            RequestReview("Would you like to rate and review this app?", "Rate & Review", "Not now");
+            RequestReview("Would you like to rate and review this app?", "Rate & Review", "Not now", nil);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ public class WinBridge : MonoBehaviour {
         /// <param name="label">The label of the message box</param>
         public static void RequestReview(string label)
         {
-            RequestReview(label, "Rate and Review", "Not now");
+            RequestReview(label, "Rate and Review", "Not now", nil);
         }
 
         /// <summary>
@@ -136,9 +136,9 @@ public class WinBridge : MonoBehaviour {
         /// <param name="label">The label of the message box</param>
         /// <param name="okLabel">The label of the OK button</param>
         /// <param name="cancelLabel">Th label of the cancel button</param>
-        public static void RequestReview(string label, string okLabel, string cancelLabel)
+        public static void RequestReview(string label, string okLabel, string cancelLabel, WinControls.Store.RatingResultHandler handler)
         {
-            WinControls.Store.RequestRating(label, okLabel, cancelLabel);
+            WinControls.Store.RequestRating(label, okLabel, cancelLabel, handler);
         }
 
     }
