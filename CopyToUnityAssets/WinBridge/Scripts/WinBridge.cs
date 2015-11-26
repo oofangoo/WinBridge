@@ -25,11 +25,11 @@ public class WinBridge : MonoBehaviour {
         /// <param name="videoUrl">URL to the video, using WinRT prefixes (see http://msdn.microsoft.com/en-us/library/windows/apps/jj655406.aspx) </param>
         /// <param name="controlsEnabled">If true, the MediaElement's playback controls will be visible</param>
         /// <param name="tapSkipsVideo">If true, a tap/click will stop the video and remove the MediaElement</param>
-        public static void PlayVideo(string videoUrl, bool controlsEnabled, bool tapSkipsVideo)
+		public static void PlayVideo(string videoUrl, bool controlsEnabled, bool tapSkipsVideo,WinControls.VideoPlayback.PlayVideoFinishedHandler handler)
         {
             #if NETFX_CORE || UNITY_WINRT
             Debug.Log("Playing video via native WinRT control. Url: " + videoUrl + "; Controls Enabled: " + controlsEnabled + "; Tap Skips Video: " + tapSkipsVideo); 
-            WinControls.VideoPlayback.PlayVideoFullscreen(videoUrl, controlsEnabled, tapSkipsVideo);
+            WinControls.VideoPlayback.PlayVideoFullscreen(videoUrl, controlsEnabled, tapSkipsVideo, handler);
             #else
             Debug.Log("Skipping native WinRT video playback - not running on WinRT"); 
             #endif
@@ -40,18 +40,18 @@ public class WinBridge : MonoBehaviour {
         /// </summary>
         /// <param name="videoUrl">URL to the video, using WinRT prefixes (see http://msdn.microsoft.com/en-us/library/windows/apps/jj655406.aspx) </param>
         /// <param name="controlsEnabled">If true, the MediaElement's playback controls will be visible</param>
-        public static void PlayVideo(string videoUrl, bool controlsEnabled)
+        public static void PlayVideo(string videoUrl, bool controlsEnabled, WinControls.VideoPlayback.PlayVideoFinishedHandler handler)
         {
-            PlayVideo(videoUrl, controlsEnabled, false);
+            PlayVideo(videoUrl, controlsEnabled, false, handler);
         }
 
         /// <summary>
         /// Plays a video using the native WinRT XAML UI control. The video starts immediately, with playback controls enabled.
         /// </summary>
         /// <param name="videoUrl"></param>
-        public static void PlayVideo(string videoUrl)
+        public static void PlayVideo(string videoUrl, WinControls.VideoPlayback.PlayVideoFinishedHandler handler)
         {
-            PlayVideo(videoUrl, true, false);
+            PlayVideo(videoUrl, true, false, handler);
         }
     }
 

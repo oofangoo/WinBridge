@@ -17,12 +17,14 @@ public class PlayVideo : MonoBehaviour {
 	void Play() {
 		// Play video right away. This video will only play if the
 		// scene is build and compiled as a WinRT project.
-		WinBridge.VideoPlayback.PlayVideo("https://github.com/ProtossEngineering/WinBridge/blob/release/Various/invitation.mp4?raw=true", true, true);
+		WinBridge.VideoPlayback.PlayVideo("https://github.com/ProtossEngineering/WinBridge/blob/release/Various/invitation.mp4?raw=true", true, true, PlayFinished);
 	}
 	void OnGUI() {
 		GUI.Label(new Rect(10, 10, 700, 80), "Press 1 to immediatly play a video. Press ESC to go back.\n" +
 			"Settings: Show controls (true), Skip video on click/tap (true)");
 	}
 
-	
+	void PlayFinished() {
+		Debug.Log("Video Finished");
+	}
 }

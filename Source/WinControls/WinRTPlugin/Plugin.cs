@@ -73,22 +73,21 @@ namespace WinControls
     public class VideoPlayback
     {
 
-        public static bool isFinishedMovie;
+        public delegate void PlayVideoFinishedHandler();
 
-        public static void PlayVideoFullscreen(string videoUrl)
+        public static void PlayVideoFullscreen(string videoUrl, PlayVideoFinishedHandler callback)
         {
-            PlayVideoFullscreen(videoUrl, true, false);
+            PlayVideoFullscreen(videoUrl, true, false, callback);
         }
-        public static void PlayVideoFullscreen(string videoUrl, bool controlsEnabled)
+        public static void PlayVideoFullscreen(string videoUrl, bool controlsEnabled, PlayVideoFinishedHandler callback)
         {
-            PlayVideoFullscreen(videoUrl, controlsEnabled, false);
+            PlayVideoFullscreen(videoUrl, controlsEnabled, false, callback);
         }
-        public static void PlayVideoFullscreen(string videoUrl, bool controlsEnabled, bool tapSkipsVideo)
+        public static void PlayVideoFullscreen(string videoUrl, bool controlsEnabled, bool tapSkipsVideo, PlayVideoFinishedHandler callback)
         {
 #if NETFX_CORE
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                isFinishedMovie = false;
 
                 Page page = (Page)Window.Current.Content;
                 SwapChainPanel backgroundPanel = (SwapChainPanel)page.FindName("DXSwapChainPanel");
@@ -148,8 +147,7 @@ namespace WinControls
 
                     //System.Threading.Thread.Sleep(2000);
                     backgroundPanel.Children.Remove(videoPlayBackElement);
-
-                    isFinishedMovie = true;
+                    callback();
                 };
 
                 backgroundPanel.Children.Add(videoPlayBackElement);
