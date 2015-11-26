@@ -135,6 +135,7 @@ namespace WinControls
                         //    skipButton.Visibility = Visibility.Collapsed;
                         //}
                         backgroundPanel.Children.Remove(videoPlayBackElement);
+                        callback();
                     };
                 }
                 videoPlayBackElement.MediaEnded += delegate
