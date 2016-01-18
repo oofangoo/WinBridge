@@ -17,7 +17,6 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml;
-using VungleSDK;
 #endif
 
 namespace WinControls
@@ -160,43 +159,6 @@ namespace WinControls
 #endif
         }
 
-    }
-
-    public class Vungle
-    {
-#if NETFX_CORE
-        public static VungleAd sdkInstance;
-        public static async void ShowVideoAds()
-#else
-        public static void ShowVideoAds()
-#endif
-        {
-#if NETFX_CORE
-            if (sdkInstance == null)
-            {
-                VungleAd sdkInstance = AdFactory.GetInstance("mainInstance");
-                //sdkInstance.OnAdPlayableChanged += SdkInstance_OnAdPlayableChanged;
-            }
-            if (sdkInstance.AdPlayable)
-            {
-                await sdkInstance.PlayAdAsync(new AdConfig { Incentivized = false, SoundEnabled = true });
-            }
-#endif
-        }
-
-        /*
-        //Event handler for OnAdPlayableChanged event
-        private static async void SdkInstance_OnAdPlayableChanged(object sender, AdPlayableEventArgs e)
-        {
-            if (e.AdPlayable)
-            {
-                await sdkInstance.PlayAdAsync(new AdConfig { Incentivized = false, SoundEnabled = true });
-            }
-            //Run asynchronously on the UI thread
-            //await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            //new DispatchedHandler(() => someMethod()));
-        }
-        */
     }
 
     public class Store
